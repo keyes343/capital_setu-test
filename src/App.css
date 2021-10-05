@@ -1,38 +1,116 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css?family=Inconsolata|Rosario|Poppins|Archivo+Black|Aleo|Dosis|Open+Sans|Montaga|Roboto|Work+Sans|Fredoka+On|Cardo|Muli|Inter|Alegreya+Sans+SC|Alegreya+Sans|Alegreya|Atma|Pompiere&display=swap');
+
+:root {
+    /* fonts */
+    /*  --cutive: 'Cutive', serif;
+  --subHeading : 'Nanum Brush Script', cursive; */
+    /* --architectsdaughter: 'Architects Daughter', cursive; */
+    --default: 'Montserrat', sans-serif;
+    --tech: 'Inconsolata', monospace;
+    --sans: 'Open Sans', sans-serif;
+    --poppins: 'Poppins', sans-serif;
+    --orange: #e17909;
+    --yellow: #ffc001;
+    --googlered: #b31b1b;
+    --facebookblue: #4267b2;
+    --button: 'Inter', sans-serif;
+
+    --maroon: #770000;
+    --blue: #3696db;
+
+    --orange: #e17909;
+    --yellow: #ffc001;
+    --darkpink: #c50d7f;
+    --whitepopup: linear-gradient(128deg, rgba(103, 89, 125, 1) 0%, rgba(17, 18, 39, 1) 100%);
+
+    /* shadows */
+    --lightShadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+
+    --largefont: 1.3rem;
+    --normalfont: 1.1rem;
+
+    --accordionOpen: linear-gradient(90deg, rgba(215, 206, 255, 0.5) 0%, rgba(235, 235, 235, 0) 100%);
+    --accordionHovered: linear-gradient(128deg, rgba(228, 226, 226, 1) 0%, rgba(235, 235, 235, 1) 100%);
+
+    --clipon: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    --clipooff: polygon(0 0, 100% 0, 100% 0, 0 0);
+
+    --pompiere: 'Pompiere', cursive;
+    --atma: 'Atma', cursive;
+    --roboto: 'Roboto', sans-serif;
+    --inter: 'Inter', sans-serif;
+    --muli: 'Muli', sans-serif;
+    --cardo: 'Cardo', serif;
+    --bold: 'Archivo Black', sans-serif;
+    --boldest: 'Fredoka One', cursive;
+    --work: 'Work Sans', sans-serif;
+
+    --inputBorder: #bdbdbd;
+    --placeholder: 'Alegreya Sans SC', sans-serif;
+    --rosario: 'Rosario', sans-serif;
+    --button: 'Alegreya Sans SC', sans-serif;
+    --link: #071bcf;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* REMOVES ANY ARROW IN THE END OF INPUT DIV */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input {
+    outline: none;
+    width: 100%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Alegreya Sans SC', 'Pompiere', 'Alegreya Sans', 'Roboto', sans-serif, cursive;
+    scroll-behavior: smooth;
+}
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+div,
+span,
+input,
+textarea {
+    font-family: var(--default);
+}
+table,
+tbody,
+tr,
+td {
+    border-spacing: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+a {
+    text-decoration: none;
+    color: inherit;
+    font-size: inherit;
+    font: inherit;
 }
 
-.App-link {
-  color: #61dafb;
+pre {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    border: 2px solid red;
+    word-wrap: break-word;
+    overflow: hidden;
+    white-space: pre;
+    max-width: 20rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+@keyframes fade {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
