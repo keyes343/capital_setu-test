@@ -46,7 +46,6 @@ export const Card = styled(Grid)<{ isOn: boolean }>`
     height: 100%;
     background-color: ${(p) => (p.isOn ? 'lightblue' : '')};
     box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.4);
-    /* border: 2px solid blue; */
     padding: 1rem;
     gap: 0.2rem;
     grid-template-columns: repeat(2, 1fr);
@@ -54,6 +53,5 @@ export const Card = styled(Grid)<{ isOn: boolean }>`
         border: 2px solid grey;
     }
     ${LabelData} {
-        /* border: 2px solid blue; */
     }
 `;

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useState, useContext, useCallback } from 'react';
-import { h, r, e, s, init } from './incoming';
+import { useState, useContext } from 'react';
+import { h, r, s } from './incoming';
 import { useHistory } from 'react-router-dom';
 
 export interface NavbarProps {

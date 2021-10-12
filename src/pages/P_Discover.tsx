@@ -1,14 +1,11 @@
-import React, { useMemo, useContext, useState, useEffect, useCallback } from 'react';
-import { s, e, t, r, h, reuse } from './incoming';
+import React, { useContext, useEffect } from 'react';
+import { s, r, h } from './incoming';
 import { Switch, Route, useHistory, useParams, useLocation } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 
 const Discover: React.FC = () => {
     return (
         <div>
-            {/* <s.Box bd="red" ht="30rem">
-                ss
-            </s.Box> */}
             <Btns />
             <Switch>
                 <Route path="/discover/_" exact>
@@ -34,7 +31,7 @@ const Btns = () => {
     const location = useLocation();
     const history = useHistory();
     const hook_user = h.User();
-    const params = useParams<{ what: 'popular' | 'latest' | 'favs' }>();
+    // const params = useParams<{ what: 'popular' | 'latest' | 'favs' }>();
 
     const state_user = useContext(r.user.StateContext);
     const dispatch_user = useContext(r.user.DispatchContext)!;
@@ -70,7 +67,6 @@ const Btns = () => {
                                 alert('You need to login to see your favourites list');
                                 return;
                             }
-                            // const LINK = root+btn.link
                             // clear previous list, then re-route
                             dispatch_user({
                                 type: r.user.act['set-list'],
@@ -88,37 +84,22 @@ const Btns = () => {
     );
 };
 
-const axios_auth = (token: string) =>
-    axios.create({
-        baseURL: e.links.apis.aws,
-        headers: {
-            'x-access-token': `${token}`,
-            // 'Access-Control-Allow-Origin': '*',
-            // 'Content-Type': 'text/plain',
-        },
-    });
+// const axios_auth = (token: string) =>
+//     axios.create({
+//         baseURL: e.links.apis.aws,
+//         headers: {
+//             'x-access-token': `${token}`,
+//             // 'Access-Control-Allow-Origin': '*',
+//             // 'Content-Type': 'text/plain',
+//         },
+//     });
 
 const DiscoverWhat = () => {
     const params = useParams<{ what: 'popular' | 'latest' | 'favs' }>();
     const hook_user = h.User();
     const state_user = useContext(r.user.StateContext);
-    const dispatch_user = useContext(r.user.DispatchContext)!;
+    // const dispatch_user = useContext(r.user.DispatchContext)!;
     const { token, loggedIn } = state_user;
-
-    const dummydata = [
-        {
-            release_date: 'release date',
-            popularity: 'popularity',
-            title: 'release date',
-            adult: false,
-        },
-        {
-            release_date: 'release date',
-            popularity: 'popularity',
-            title: 'release date',
-            adult: false,
-        },
-    ];
 
     useEffect(() => {
         console.log({ token });

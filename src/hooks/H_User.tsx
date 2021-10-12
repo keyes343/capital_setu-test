@@ -99,17 +99,17 @@ const User = () => {
 
     const fetchList = async (what: 'popular' | 'latest' | 'favs') => {
         console.log(`------------------what = ${what} --------------`);
-        console.log(`step 1 - _fetchList()_ - OK - start`);
+        // console.log(`step 1 - _fetchList()_ - OK - start`);
         try {
             // console.log({ payload, api });
             let result: any;
             if (what === 'favs') {
-                console.log(`step 2 - _fetchList()_ - OK - entering favs section`);
+                // console.log(`step 2 - _fetchList()_ - OK - entering favs section`);
                 if (token) {
-                    console.log(`step 3 - _fetchList()_ - OK - token present`);
+                    // console.log(`step 3 - _fetchList()_ - OK - token present`);
                     const api = '/auth/getFavs';
                     const { status, data } = (await axios_auth(token).post(api, { token })) as any;
-                    console.log(`step 4 - _fetchList()_ - OK - axios call made with token`);
+                    // console.log(`step 4 - _fetchList()_ - OK - axios call made with token`);
                     console.log({ data, status });
                     result = data;
                 } else {
@@ -121,11 +121,11 @@ const User = () => {
                 const api = `${e.links.apis.aws}/auth/getMovieData`;
                 const payload = { what, token };
                 const { status, data } = (await axios.post(api, payload)) as any;
-                console.log(`step 3 - _fetchList()_ - OK - axios call made WITHOUT token`);
+                // console.log(`step 3 - _fetchList()_ - OK - axios call made WITHOUT token`);
                 result = data;
             }
             if (result) {
-                console.log(`step 4 - _fetchList()_ - OK - result true, now setting list`);
+                // console.log(`step 4 - _fetchList()_ - OK - result true, now setting list`);
                 dispatch_user({
                     type: r.user.act['set-list'],
                     payload: result,
@@ -136,18 +136,17 @@ const User = () => {
         } catch (error) {
             console.log({ error });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     };
+
     // ACKNOWLEDGE USER in database once user logs in
+    // do not acknowledge user if already acknowledged
+    // or if not logged in yet.
     const acknowledgedUser = useCallback(async () => {
         console.log(`step 1 - _acknowledgeUser()_ - OK - start`);
-        // do not acknowledge user if already acknowledged
-        // or if not logged in yet.
         const touchpoint = e.links.apis.aws + '/user/acknowledge';
 
         // PAYLOAD FOR ACKNOWLEDGING USER
         const payload = {
-            // email: undefined,
             email: state_user.email as string,
             uid: state_user.uid! as string,
             token,
@@ -176,15 +175,12 @@ const User = () => {
         // console.log(`step 1 - _toggle_fav()_ - OK - start`);
         set_spinner(true);
         if (!token) {
-            console.log(`step 2 - _toggle_fav()_ - FAIL - no token in reducer`);
+            // console.log(`step 2 - _toggle_fav()_ - FAIL - no token in reducer`);
             alert('Login first');
             return;
         }
         // console.log(`step 2 - _toggle_fav()_ - OK - token found, going to fetch data`);
         const api = `/auth/favs/${action}`;
-        // const payload = {
-        //     mongoose_id: state_user.mongoose_id
-        // }
         const payload = {
             mongoose_id,
             card_id,
@@ -196,7 +192,7 @@ const User = () => {
 
         // console.log({ data });
         if (data) {
-            console.log(`step 4 - _toggle_fav()_ - OK - data found`);
+            // console.log(`step 4 - _toggle_fav()_ - OK - data found`);
             dispatch_user({
                 type: r.user.act['set-favs'],
                 payload: data,
@@ -204,7 +200,6 @@ const User = () => {
         }
         set_spinner(false);
         if (status === 401) {
-            // auth has expired, login again.
             alert('You need to login again');
             LOGOUT();
         }

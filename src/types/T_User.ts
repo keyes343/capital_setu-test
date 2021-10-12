@@ -1,6 +1,3 @@
-import { Url_storage } from './index';
-
-export type ID_Type = 'Drivers License' | 'Adhaar Card';
 export type User = {
     username: string;
     password: string;

@@ -6,11 +6,11 @@ interface LoginProps {}
 const Login: React.FC<LoginProps> = (p) => {
     const S = s.login;
 
-    const state_settings = useContext(r.settings.StateContext);
-    const dispatch_settings = useContext(r.settings.DispatchContext)!;
+    // const state_settings = useContext(r.settings.StateContext);
+    // const dispatch_settings = useContext(r.settings.DispatchContext)!;
 
     const state_user = useContext(r.user.StateContext);
-    const dispatch_user = useContext(r.user.DispatchContext)!;
+    // const dispatch_user = useContext(r.user.DispatchContext)!;
     return (
         <S.MainWrapper>
             {state_user.loggedIn ? (
@@ -44,14 +44,3 @@ const AlreadyLoggedin = () => {
         </S.AlreadyLoggedin>
     );
 };
-
-// ------------------
-
-// const LoginInputs = () => {
-//     const S = s.login;
-
-//     return(
-//         <S.InputArea >
-
-//         </S.InputArea>
-// )}

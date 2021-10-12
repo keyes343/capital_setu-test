@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { h, r, s, t } from './incoming';
+import { h, r, s } from './incoming';
 
 export const InputLine = () => {
     const S = s.login;
@@ -35,26 +35,12 @@ export const Submit = () => {
     const S = s.login;
     const hook_user = h.User();
 
-    const state_user = useContext(r.user.StateContext);
-    const dispatch_user = useContext(r.user.DispatchContext)!;
-    // const save = () => {
-    //     const { myMeds, fetch_meds, set_myMeds,save_meds } = hook_med;
-    //     if (hook_med.myMeds) hook_med.fetch_meds();
-    // };
-
     return (
         <S.Submit>
             <S.Btn
                 isOn={false}
                 onClick={() => {
                     hook_user.LOGIN();
-                    // hook_user.save();
-                    // dispatch_settings({
-                    //     type: r.settings.act['menu-option'],
-                    //     payload: {
-                    //         popup: true,
-                    //     },
-                    // });
                 }}
             >
                 {hook_user.spinner ? 'Wait... ' : 'Login'}

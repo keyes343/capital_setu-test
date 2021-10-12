@@ -1,5 +1,5 @@
 import { createContext, Dispatch } from 'react';
-import { t, init } from './incoming';
+import { t } from './incoming';
 
 type Action = {
     type: act;
@@ -65,7 +65,7 @@ export const reducer = (state: State, action: Action) => {
         case act['set-password']:
             newState.password = payload ?? '';
             break;
-        case act['login']: // when user selects a subcategory ( new, same, both )
+        case act['login']:
             console.log('logging in with', payload);
             if (!newState.loggedIn) {
                 localStorage.setItem('token', payload.token);

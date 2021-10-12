@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Inconsolata|Rosario|Poppins|Archivo+Black|Aleo|Dosis|Open+Sans|Montaga|Roboto|Work+Sans|Fredoka+On|Cardo|Muli|Inter|Alegreya+Sans+SC|Alegreya+Sans|Alegreya|Atma|Pompiere&display=swap');
 
 :root {
-    /* fonts */
-    /*  --cutive: 'Cutive', serif;
-  --subHeading : 'Nanum Brush Script', cursive; */
-    /* --architectsdaughter: 'Architects Daughter', cursive; */
     --default: 'Montserrat', sans-serif;
     --tech: 'Inconsolata', monospace;
     --sans: 'Open Sans', sans-serif;

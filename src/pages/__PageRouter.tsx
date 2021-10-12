@@ -2,21 +2,21 @@ import * as React from 'react';
 import { useEffect, useContext } from 'react';
 import { HashRouter, Switch, Route, Router } from 'react-router-dom';
 import { createHashHistory } from 'history';
-import { r, h, e, t, reuse } from './incoming';
+import { r, h, e, reuse } from './incoming';
 import * as pages from './index';
 import axios from 'axios';
 
 export interface PageRouterProps {}
 
-const axios_auth = (token: string) =>
-    axios.create({
-        baseURL: e.links.apis.aws,
-        headers: {
-            'x-access-token': `${token}`,
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'text/plain',
-        },
-    });
+// const axios_auth = (token: string) =>
+//     axios.create({
+//         baseURL: e.links.apis.aws,
+//         headers: {
+//             'x-access-token': `${token}`,
+//             'Access-Control-Allow-Origin': '*',
+//             'Content-Type': 'text/plain',
+//         },
+//     });
 const PageRouter: React.FC<PageRouterProps> = () => {
     const history = createHashHistory();
     const state_user = useContext(r.user.StateContext);
@@ -76,19 +76,10 @@ const PageRouter: React.FC<PageRouterProps> = () => {
                     <Route path="/discover/:what" strict>
                         <pages.Discover />
                     </Route>
-                    <Route path="/fav" exact>
-                        <pages.Fav />
-                    </Route>
                 </Switch>
             </HashRouter>
         </Router>
     );
-    // if(state_settings.isMobile){
-    // }else {
-    //     return (
-    //     );
-
-    // }
 };
 
 export default PageRouter;

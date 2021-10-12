@@ -1,5 +1,5 @@
 import { createContext, Dispatch } from 'react';
-import { t } from './incoming';
+// import { t } from './incoming';
 
 export type Payload = Partial<{
     [K in keyof State]: State[K];
@@ -13,12 +13,10 @@ export enum act {
 }
 
 export type State = {
-    active_menu: t.Menu;
     popup: boolean;
 };
 
 export const initialState: State = {
-    active_menu: 'Home',
     popup: false,
 };
 
