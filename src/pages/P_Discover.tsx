@@ -33,37 +33,50 @@ const Btns = () => {
     const S = s.discover;
     const location = useLocation();
     const history = useHistory();
+    const hook_user = h.User();
+    const params = useParams<{ what: 'popular' | 'latest' | 'favs' }>();
 
     const state_user = useContext(r.user.StateContext);
     const dispatch_user = useContext(r.user.DispatchContext)!;
 
     const root = '/discover/';
-    const btns = [
+    const btns: {
+        title: string;
+        link: 'popular' | 'latest' | 'favs';
+    }[] = [
         {
             title: 'Popular',
-            link: root + 'popular',
+            link: 'popular',
         },
         {
             title: 'Latest',
-            link: root + 'latest',
+            link: 'latest',
         },
         {
             title: 'Favourites',
-            link: root + 'favourites',
+            link: 'favs',
         },
     ];
+
     return (
         <S.BtnRow count={btns.length}>
             {btns.map((btn, i) => {
                 return (
                     <S.Btn
-                        isOn={location.pathname === btn.link}
+                        isOn={location.pathname === root + btn.link}
                         key={i}
                         onClick={() => {
+                            if (btn.link === 'favs' && !state_user.loggedIn) {
+                                alert('You need to login to see your favourites list');
+                                return;
+                            }
+                            // const LINK = root+btn.link
+                            // clear previous list, then re-route
                             dispatch_user({
                                 type: r.user.act['set-list'],
                                 payload: null,
                             });
+                            hook_user.fetchList(btn.link);
                             history.push(btn.link);
                         }}
                     >
@@ -75,30 +88,22 @@ const Btns = () => {
     );
 };
 
+const axios_auth = (token: string) =>
+    axios.create({
+        baseURL: e.links.apis.aws,
+        headers: {
+            'x-access-token': `${token}`,
+            // 'Access-Control-Allow-Origin': '*',
+            // 'Content-Type': 'text/plain',
+        },
+    });
+
 const DiscoverWhat = () => {
-    const params = useParams<{ what: 'popular' | 'latest' }>();
+    const params = useParams<{ what: 'popular' | 'latest' | 'favs' }>();
     const hook_user = h.User();
     const state_user = useContext(r.user.StateContext);
     const dispatch_user = useContext(r.user.DispatchContext)!;
-
-    const config = {
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'text/plain',
-        },
-    };
-    const axios_auth = axios.create({
-        // baseURL: 'https://api.themoviedb.org/3',
-        ...config,
-    });
-
-    // const axios_auth = axios.create({
-    //     // baseURL: 'https://api.themoviedb.org',
-    //     headers: {
-    //         'Access-Control-Allow-Origin': '*',
-    //         'Content-Type': 'text/plain',
-    //     },
-    // });
+    const { token, loggedIn } = state_user;
 
     const dummydata = [
         {
@@ -114,48 +119,34 @@ const DiscoverWhat = () => {
             adult: false,
         },
     ];
-    // const [list, set_list] = useState<
-    //     | null
-    //     | {
-    //           release_date: string;
-    //           popularity: string;
-    //           title: string;
-    //           adult: boolean;
-    //       }[]
-    // >(null);
-
-    const fetchList = async () => {
-        // const api = e.links.moviedb[params.what];
-        console.log('fetching from page ');
-        const api = e.links.apis.aws + 'auth/getMovieData';
-        console.log({ api, params });
-        try {
-            const { status, data } = (await axios.post('http://localhost:5000/auth/getMovieData', {
-                what: params.what,
-            })) as any;
-            if (data) {
-                console.log({ data, status });
-                dispatch_user({
-                    type: r.user.act['set-list'],
-                    payload: data.results,
-                });
-            }
-        } catch (error) {
-            console.log({ error });
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    };
 
     useEffect(() => {
-        if (!state_user.list) {
-            fetchList();
+        console.log({ token });
+        if (!state_user.list && loggedIn) {
+            hook_user.fetchList(params.what);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state_user.list]);
+    }, [state_user.list, token, params.what, loggedIn]);
 
     const S = s.discover;
 
     const { list } = state_user;
+
+    useEffect(() => {
+        console.log('--------------------------------1');
+        if ((params.what === 'latest' || params.what === 'popular') && !state_user.list) {
+            console.log('--------------------------------2');
+            hook_user.fetchList(params.what);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [params.what, state_user.list]);
+
+    useEffect(() => {
+        if (params.what === 'favs' && state_user.mongoose_id && !state_user.list) {
+            hook_user.fetchList(params.what);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [params.what, state_user.list, state_user.mongoose_id]);
 
     return (
         <S.CardWrapper>
@@ -182,7 +173,7 @@ const DiscoverWhat = () => {
                           </S.Card>
                       );
                   })
-                : 'Wait for a few seconds, or refresh'}
+                : 'Wait for a few seconds, or refresh.......................... Or maybe you have refreshed the page too many times in a short span of time'}
         </S.CardWrapper>
     );
 };

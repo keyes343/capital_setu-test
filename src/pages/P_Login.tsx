@@ -5,7 +5,6 @@ interface LoginProps {}
 
 const Login: React.FC<LoginProps> = (p) => {
     const S = s.login;
-    // const prev_token = localStorage.getItem('token');
 
     const state_settings = useContext(r.settings.StateContext);
     const dispatch_settings = useContext(r.settings.DispatchContext)!;

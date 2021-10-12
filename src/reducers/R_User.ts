@@ -17,6 +17,7 @@ export enum act {
     'set-list',
     'set-favs',
     'set-mongooseId',
+    'authenticate',
 }
 
 type KEY = keyof t.user.User;
@@ -27,13 +28,13 @@ export interface State extends User_keys {
     acknowledged: boolean; // true if user now exists in mongoose database
     mongoose_id: string | null;
     email: string | null;
-    token: string | null;
     uid: string | null;
     username: string;
     password: string;
 
     list: t.user.Card[] | null;
     favs: string[];
+    token: string | null | false;
 }
 
 export const initialState: State = {
@@ -42,13 +43,13 @@ export const initialState: State = {
     uid: null,
     loggedIn: false,
     acknowledged: false,
-    token: null,
 
     username: '',
     password: '',
 
     list: null,
     favs: [],
+    token: null,
 };
 
 export const reducer = (state: State, action: Action) => {
@@ -67,16 +68,27 @@ export const reducer = (state: State, action: Action) => {
         case act['login']: // when user selects a subcategory ( new, same, both )
             console.log('logging in with', payload);
             if (!newState.loggedIn) {
+                localStorage.setItem('token', payload.token);
                 newState.loggedIn = true;
                 newState.mongoose_id = payload.mongoose_id;
                 newState.favs = payload.favs;
+                newState.token = payload.token;
             }
             break;
         case act.logout:
-            console.log('logging out');
             localStorage.removeItem('token');
+            console.log('logging out');
             newState.loggedIn = false;
-            console.log({ newState });
+            newState.username = '';
+            newState.password = '';
+            newState.mongoose_id = null;
+            newState.token = null;
+            newState.favs = [];
+            break;
+        case act.authenticate:
+            newState.username = payload.username;
+            newState.password = payload.password;
+            newState.loggedIn = true;
             break;
         // case act.acknowledged:
         //     const load = payload as t.user.UserDocument;
@@ -97,7 +109,7 @@ export const reducer = (state: State, action: Action) => {
             newState.favs = payload ?? null;
             break;
         case act['set-mongooseId']:
-            console.log({ payload });
+            // console.log({ payload });
             newState.mongoose_id = payload.mongoose_id;
             newState.favs = payload.favs;
             newState.loggedIn = true;

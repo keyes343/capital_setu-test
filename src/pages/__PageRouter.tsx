@@ -13,6 +13,8 @@ const axios_auth = (token: string) =>
         baseURL: e.links.apis.aws,
         headers: {
             'x-access-token': `${token}`,
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'text/plain',
         },
     });
 const PageRouter: React.FC<PageRouterProps> = () => {
@@ -25,12 +27,14 @@ const PageRouter: React.FC<PageRouterProps> = () => {
     const hook_user = h.User();
 
     const getUserId = async () => {
-        console.log('getting user id');
+        // console.log(`step 1 - _getUserId()_ - OK - start`);
         const api = `${e.links.apis.aws}/auth/get_user_id`;
-        const prev_token = localStorage.getItem('token');
+        const { token } = state_user;
         try {
-            if (prev_token) {
-                const { data, status } = (await axios_auth(prev_token).get(api)) as any;
+            if (token) {
+                // console.log(`step 1 - _getUserId()_ - OK - token exists`);
+                const { data, status } = (await axios.post(api, { token })) as any;
+                // console.log(`step 2 - _getUserId()_ - OK - axios call done`);
                 const payload = {
                     mongoose_id: data._id,
                     favs: data.favs,
@@ -42,25 +46,19 @@ const PageRouter: React.FC<PageRouterProps> = () => {
                     payload,
                 });
             }
-        } catch (error) {}
+        } catch (error) {
+            console.log({ error });
+        }
     };
     // ACKNOWLEDGE USER INTO DATABASE
     useEffect(() => {
-        // if (!state_user.acknowledged && state_user.loggedIn) {
-        //     hook_user.acknowledgedUser();
-        // }
-        const auth = localStorage.getItem('token');
-
-        if (auth && !state_user.mongoose_id) {
+        if (!state_user.mongoose_id && state_user.token) {
+            // console.log(`step 1 - _getting user id_ - OK - start`);
             getUserId();
-            // dispatch_user({
-            //     type: r.user.act.login,
-            //     payload: true,
-            // });
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state_user.acknowledged, state_user.loggedIn]);
+    }, [state_user.acknowledged, state_user.loggedIn, state_user.mongoose_id, state_user.token]);
 
     return (
         <Router history={history}>
